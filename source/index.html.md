@@ -57,7 +57,9 @@ You must replace <code>YOUR_TOKEN</code> with your personal API key.
 
 # Beaconstac
 
-## Beacons
+## Beacon
+
+Beacon objects allow you to perform actions on your beacons. You can retrieve individual beacons as well as a list of all your beacons or update a beacon.
 
 ### Get all beacons
 
@@ -354,7 +356,7 @@ Retrieves the details of an existing beacon. You need only supply the unique bea
 curl "https://beaconstac.mobstac.com/api/2.0/beacons/{beacon_id}"
   -X PUT
   -H "Authorization: Token YOUR_TOKEN"
-  -d "{"id":beacon_id, "campaign":{"id":10130}}"
+  -d "{'id':beacon_id, 'campaign':{'id':10130}}"
 ```
 
 > The above command returns JSON structured like this:
@@ -459,110 +461,233 @@ curl "https://beaconstac.mobstac.com/api/2.0/beacons/{beacon_id}"
 }
 ```
 
-
 Updates the specified beacon by setting the values of the parameters passed. Any parameters not provided will be left unchanged. However, the request should contain the required fields. Please refer to the Beacon object.
 
-## Get a Specific Kitten
+## NFC Tag
 
-```ruby
-require 'kittn'
+NFCTag objects allow you to perform actions on your nfc tags. You can retrieve individual nfc tags as well as a list of all your tags or update a tag.
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
+### Get all NFC tags
 
 ```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
+curl "https://beaconstac.mobstac.com/api/2.0/nfctags/"
+  -H "Authorization: Token YOUR_TOKEN"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
 {
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
+  "count": 2,
+  "next": null,
+  "previous": null,
+  "results": [
+    {
+      "id": 1329,
+      "name": "04DA184A096180",
+      "uid": "04DA184A096180",
+      "counter": 8,
+      "meta": {
+        "activationTimestamp": 1552469890
+      },
+      "place_data": {
+        "id": 2888,
+        "name": "Times Square"
+      },
+      "tag_data": [],
+      "campaign": {
+        "id": 22398,
+        "name": "Christmas Special",
+        "custom_url": "https://www.google.com",
+        "content_type": 2,
+        "campaign_active": true,
+        "created": "2019-03-13T09:38:08.416096Z",
+        "updated": "2019-03-13T09:38:08.416111Z",
+        "organization": 1697,
+        "markdown_card": 1708,
+        "form": 4377,
+        "schedule": 28
+      },
+      "url": "https://nfc.tapnscan.me/1xdthy",
+      "state": "A",
+      "heartbeat": "2019-06-17T11:05:35.788514Z",
+      "created": "2019-02-26T05:56:07.426902Z",
+      "updated": "2019-06-17T11:05:35.788643Z",
+      "encrypted_hardware_key": "o3N6+fKRkCSRaJZJ86xvm6pVEaUmX/+mlfv7RgZfw3bgQdPFE6M0zt4jpx9KiWa0",
+      "organization": 1697,
+      "place": 2888,
+      "tags": []
+    },
+    {
+      "id": 1151,
+      "name": "046974ca714d81",
+      "uid": "046974ca714d81",
+      "counter": 129,
+      "meta": {
+        "activationTimestamp": 1552298188
+      },
+      "place_data": {
+        "id": 2888,
+        "name": "Times Square"
+      },
+      "tag_data": [],
+      "campaign": {
+        "id": 22295,
+        "name": "Christmas Special",
+        "custom_url": "https://www.google.com",
+        "content_type": 2,
+        "campaign_active": true,
+        "created": "2019-03-11T09:56:27.705916Z",
+        "updated": "2019-03-11T09:56:27.705930Z",
+        "organization": 1697,
+        "markdown_card": 1708,
+        "form": 4377,
+        "schedule": 28
+      },
+      "url": "https://nfc.tapnscan.me/5dkm0C",
+      "state": "A",
+      "heartbeat": "2019-06-03T07:12:25.247399Z",
+      "created": "2019-02-26T05:56:06.109631Z",
+      "updated": "2019-06-03T07:12:25.247588Z",
+      "encrypted_hardware_key": "qmK1WNHrq30BGSooKHDmFJoWYNz0CnOXXqdAOWlQ19OHqkL63cagPgsersM+Ma6t",
+      "organization": 1697,
+      "place": 2888,
+      "tags": []
+    }
+  ]
 }
 ```
 
-This endpoint retrieves a specific kitten.
+Returns a list of your nfc tags. The tags are returned sorted by updated, with the most recently updated tags appearing first.
 
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
+Filter arguments:
 
-### HTTP Request
+1. `name`: `exact`, `icontains`
+2. `place__name`: `exact`, `icontains`
+3. `tags__name`: `exact`, `icontains`
+4. `url`: `exact`
+5. `campaign__content_type`: `exact` 
+6. `state`: `exact`
 
-`GET http://example.com/kittens/<ID>`
+Search Fields:
 
-### URL Parameters
+1. `name`
+2. `place__name`
+3. `tags__name`
+4. `url`
+5. `campaign__content_type`
 
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
+Ordering fields:
 
-## Delete a Specific Kitten
+1. `name`
+2. `place__name`
+3. `created`
+4. `updated` - default
+5. `campaign__content_type`
+6. `state`
 
-```ruby
-require 'kittn'
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-```
+### Retrieve a NFC tag
 
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
-```
+`GET https://beaconstac.mobstac.com/api/2.0/nfctags/{nfctag_id}`
 
 ```shell
-curl "http://example.com/api/kittens/2"
-  -X DELETE
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
+curl "https://beaconstac.mobstac.com/api/2.0/nfctags/{nfctag_id}"
+  -H "Authorization: Token YOUR_TOKEN"
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
 {
-  "id": 2,
-  "deleted" : ":("
+  "id": 3,
+  "name": "04DA184A096180",
+  "uid": "04DA184A096180",
+  "counter": 0,
+  "meta": {
+    "hardware_type": 8,
+    "activationTimestamp": 1552891519
+  },
+  "place_data": {
+    "id": 1430,
+    "name": "MobStac"
+  },
+  "tag_data": [],
+  "campaign": {
+    "id": 20019,
+    "name": "Looking for Shoes?",
+    "custom_url": "https://www.google.com",
+    "content_type": 2,
+    "campaign_active": true,
+    "created": "2019-03-18T06:45:16.989177",
+    "updated": "2019-03-18T06:45:16.989196",
+    "organization": 949,
+    "markdown_card": 135,
+    "form": 137,
+    "schedule": 4
+  },
+  "url": "https://q.nfc.tapnscan.me/xHfUUg",
+  "state": "A",
+  "heartbeat": "2019-06-11T12:12:56.184672Z",
+  "created": "2019-03-18T06:44:26.671110Z",
+  "updated": "2019-06-11T12:12:56.184869Z",
+  "encrypted_hardware_key": "YMjBG8wNhvWCWqJCBJ4Sn7eLPRxrPom91nNuT2cIoog3jr8rIKTnVEOMfFLrviMt",
+  "organization": 949,
+  "place": 1430,
+  "tags": []
 }
 ```
 
-This endpoint deletes a specific kitten.
+Retrieves the details of an existing nfc tag. You need only supply the unique nfc tag identifier that was returned upon tags listing.
 
-### HTTP Request
+### Update Beacon
 
-`DELETE http://example.com/kittens/<ID>`
+`PUT https://beaconstac.mobstac.com/api/2.0/beacons/{beacon_id}`
 
-### URL Parameters
+```shell
+curl "https://beaconstac.mobstac.com/api/2.0/beacons/{beacon_id}"
+  -X PUT
+  -H "Authorization: Token YOUR_TOKEN"
+  -d "{'id':beacon_id, 'campaign':{'id':10130}}"
+```
 
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to delete
+> The above command returns JSON structured like this:
 
+```json
+{
+  "id": 1329,
+  "name": "04DA184A096180",
+  "uid": "04DA184A096180",
+  "counter": 8,
+  "meta": {
+    "activationTimestamp": 1552469890
+  },
+  "place_data": {
+    "id": 2888,
+    "name": "Times Square"
+  },
+  "tag_data": [],
+  "campaign": {
+    "id": 22398,
+    "name": "Customer Satisfaction Survey",
+    "custom_url": "https://www.google.com",
+    "content_type": 3,
+    "campaign_active": true,
+    "created": "2019-03-13T09:38:08.416096Z",
+    "updated": "2019-06-24T09:15:36.134285Z",
+    "organization": 1697,
+    "markdown_card": 1708,
+    "form": 7912,
+    "schedule": 28
+  },
+  "url": "https://nfc.tapnscan.me/1xdthy",
+  "state": "A",
+  "heartbeat": "2019-06-17T11:05:35.788514Z",
+  "created": "2019-02-26T05:56:07.426902Z",
+  "updated": "2019-06-24T09:15:36.166303Z",
+  "encrypted_hardware_key": "gl6AECZ4HlF4KgCAFztNxXezG1lAKkeHGL1H8CWopbHVb/vhI4d8mPTxHv+GsTu0",
+  "organization": 1697,
+  "place": 2888,
+  "tags": []
+}
+```
