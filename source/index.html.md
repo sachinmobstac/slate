@@ -398,7 +398,7 @@ curl "https://beaconstac.mobstac.com/api/2.0/beacons/{beacon_id}"
         "nearby": {}
       },
       "title": "轉數快：隨時隨地，跨行即時過數！",
-      "description": null,
+      "description": "轉數快：隨時隨地",
       "icon_url": "https://d1bqobzsowu5wu.cloudfront.net/3568/a7fbe7d8f0d84595ac0dfa75c31f9a08",
       "banner_type": 1,
       "banner_image_url": null,
@@ -729,7 +729,7 @@ curl "https://beaconstac.mobstac.com/api/2.0/geofences/"
         "form": 137,
         "schedule": 4
       },
-      "url": "https://q.geo.tapnscan.me/b6Pt2C",
+      "url": "https://geo.tapnscan.me/b6Pt2C",
       "notifications": [
         {
           "id": 451,
@@ -785,7 +785,7 @@ curl "https://beaconstac.mobstac.com/api/2.0/geofences/"
         "form": 1111,
         "schedule": 28
       },
-      "url": "https://q.geo.tapnscan.me/Cie705",
+      "url": "https://geo.tapnscan.me/Cie705",
       "notifications": [
         {
           "id": 453,
@@ -883,7 +883,7 @@ curl "https://beaconstac.mobstac.com/api/2.0/geofences/{geofence_id}"
     "form": 137,
     "schedule": 4
   },
-  "url": "https://q.geo.tapnscan.me/b6Pt2C",
+  "url": "https://geo.tapnscan.me/b6Pt2C",
   "notifications": [
     {
       "id": 451,
@@ -955,7 +955,7 @@ curl "https://beaconstac.mobstac.com/api/2.0/geofences/{geofence_id}"
     "form": 137,
     "schedule": 4
   },
-  "url": "https://q.geo.tapnscan.me/b6Pt2C",
+  "url": "https://geo.tapnscan.me/b6Pt2C",
   "notifications": [
     {
       "id": 451,
@@ -991,3 +991,37 @@ curl "https://beaconstac.mobstac.com/api/2.0/geofences/{geofence_id}"
 ```
 
 Updates the specified geofence by setting the values of the parameters passed. Any parameters not provided will be left unchanged. However, the request should contain the required fields. Please refer to the Geofence object.
+
+### Create Geofence
+
+```shell
+curl "https://beaconstac.mobstac.com/api/2.0/geofences/"
+  -X POST
+  -H "Authorization: Token YOUR_TOKEN"
+  -d "{'id':geofence_id, 'campaign':{'id':10130}}"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "campaign": {
+        "id": 223,
+        "custom_url": "https://beaconstac.com",
+        "content_type": 2,
+        "campaign_active": true,
+        "organization": 1284,
+        "markdown_card": 434,
+        "form": 7099,
+        "schedule": null
+    },
+    "name": "Corner",
+    "place": 1929,
+    "latitude": 12.21343,
+    "longitude": 12.213132,
+    "radius": 100,
+    "organization": 1234
+}
+```
+
+You can create the geofence by giving it a `name`, `latitude`, `longitude`, `radius` and a `campaign`.
