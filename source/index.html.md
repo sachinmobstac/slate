@@ -640,7 +640,7 @@ Retrieves the details of an existing nfc tag. You need only supply the unique nf
 curl "https://beaconstac.mobstac.com/api/2.0/nfctags/{nfctag_id}"
   -X PUT
   -H "Authorization: Token YOUR_TOKEN"
-  -d "{'id':nfctag_id, 'campaign':{'id':10130}}"
+  -d "{'id':nfctag_id, 'campaign':{'id':22398}}"
 ```
 
 > The above command returns JSON structured like this:
@@ -686,6 +686,344 @@ curl "https://beaconstac.mobstac.com/api/2.0/nfctags/{nfctag_id}"
 
 Updates the specified nfc tag by setting the values of the parameters passed. Any parameters not provided will be left unchanged. However, the request should contain the required fields. Please refer to the NFCTag object.
 
+## QR Code 
+
+QRCode objects allow you to perform actions on your qr codes. You can retrieve individual qr codes as well as a list of all your qr codes or update a qr code.
+
+
+### Get all QR codes
+
+```shell
+curl "https://beaconstac.mobstac.com/api/2.0/qrcodes/"
+  -H "Authorization: Token YOUR_TOKEN"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "count": 2,
+  "next": null,
+  "previous": null,
+  "results": [
+    {
+      "id": 224,
+      "meta": {
+        "notes": "",
+        "activationTimestamp": 1557387845
+      },
+      "place_data": {
+        "id": 8361,
+        "name": "KIA Bengaluru"
+      },
+      "tag_data": [],
+      "campaign": {
+        "id": 23258,
+        "name": "Dynamic QR code demo",
+        "custom_url": "https://www.example.com",
+        "content_type": 4,
+        "campaign_active": true,
+        "created": "2019-05-09T07:44:03.544150Z",
+        "updated": "2019-05-09T07:44:03.544165Z",
+        "organization": 1697,
+        "markdown_card": 13988,
+        "form": 13620,
+        "schedule": 4744
+      },
+      "fields_data": {},
+      "attributes": {
+        "color": "#000000",
+        "margin": "",
+        "backgroundImage": "",
+        "logoImage": ""
+      },
+      "url": "https://qr.tapnscan.me/sycwbi",
+      "name": "Dynamic QR code demo",
+      "state": "A",
+      "heartbeat": "2019-06-24T04:42:16.236105Z",
+      "created": "2019-05-09T07:44:03.517097Z",
+      "updated": "2019-06-24T04:42:16.236238Z",
+      "qr_type": 2,
+      "organization": 1697,
+      "place": 8361,
+      "tags": []
+    },
+    {
+      "id": 42,
+      "meta": {
+        "notes": "",
+        "activationTimestamp": 1552334973,
+        "dynamic_sub_campaign": "landing_page"
+      },
+      "place_data": {
+        "id": 8281,
+        "name": "San Marco Square"
+      },
+      "tag_data": [],
+      "campaign": {
+        "id": 22303,
+        "name": "Half Price, Happy Hour",
+        "custom_url": "https://google.com",
+        "content_type": 2,
+        "campaign_active": true,
+        "created": "2019-03-11T20:09:31.142375Z",
+        "updated": "2019-06-20T17:12:54.248951Z",
+        "organization": 3568,
+        "markdown_card": 9533,
+        "form": 11531,
+        "schedule": 1075
+      },
+      "fields_data": {},
+      "attributes": {
+        "color": "#000000",
+        "backgroundImage": "",
+        "margin": "",
+        "logoImage": ""
+      },
+      "url": "https://qr.tapnscan.me/byonegetonefree",
+      "name": "Coffee Shop Offer",
+      "state": "A",
+      "heartbeat": "2019-06-14T14:48:31.407835Z",
+      "created": "2019-03-11T20:09:31.126677Z",
+      "updated": "2019-06-20T17:12:54.272483Z",
+      "qr_type": 2,
+      "organization": 3568,
+      "place": 8281,
+      "tags": []
+    }
+  ]
+}
+```
+
+Returns a list of your qr codes. The tags are returned sorted by updated, with the most recently updated qr codes appearing first.
+
+Filter arguments:
+
+1. `name`: `exact`, `icontains`
+2. `place__name`: `exact`, `icontains`
+3. `tags__name`: `exact`, `icontains`
+4. `url`: `exact`
+5. `campaign__content_type`: `exact` 
+6. `state`: `exact`
+
+Search Fields:
+
+1. `name`
+2. `place__name`
+3. `tags__name`
+4. `url`
+5. `campaign__content_type`
+
+Ordering fields:
+
+1. `name`
+2. `place__name`
+3. `created`
+4. `updated` - default
+5. `campaign__content_type`
+6. `state`
+
+### Retrieve a QR code
+
+```shell
+curl "https://beaconstac.mobstac.com/api/2.0/qrcodes/{qrcode_id}"
+  -H "Authorization: Token YOUR_TOKEN"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "id": 224,
+  "meta": {
+    "notes": "",
+    "activationTimestamp": 1557387845
+  },
+  "place_data": {
+    "id": 8361,
+    "name": "KIA Bengaluru"
+  },
+  "tag_data": [],
+  "campaign": {
+    "id": 23258,
+    "name": "Dynamic QR code demo",
+    "custom_url": "https://www.example.com",
+    "content_type": 4,
+    "campaign_active": true,
+    "created": "2019-05-09T07:44:03.544150Z",
+    "updated": "2019-05-09T07:44:03.544165Z",
+    "organization": 1697,
+    "markdown_card": 13988,
+    "form": 13620,
+    "schedule": 4744
+  },
+  "fields_data": {},
+  "attributes": {
+    "color": "#000000",
+    "margin": "",
+    "backgroundImage": "",
+    "logoImage": ""
+  },
+  "url": "https://qr.tapnscan.me/sycwbi",
+  "name": "Dynamic QR code demo",
+  "state": "A",
+  "heartbeat": "2019-06-24T04:42:16.236105Z",
+  "created": "2019-05-09T07:44:03.517097Z",
+  "updated": "2019-06-24T04:42:16.236238Z",
+  "qr_type": 2,
+  "organization": 1697,
+  "place": 8361,
+  "tags": []
+}
+```
+
+Retrieves the details of an existing qr code. You need only supply the unique qr code identifier that was returned upon qr codes listing.
+
+### Update QR code
+
+```shell
+curl "https://beaconstac.mobstac.com/api/2.0/qrcodes/{qrcode_id}"
+  -X PUT
+  -H "Authorization: Token YOUR_TOKEN"
+  -d "{'id':qrcode_id, 'campaign':{'id':23258}}"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "id": 224,
+  "meta": {
+    "notes": "",
+    "activationTimestamp": 1557387845,
+    "dynamic_sub_campaign": "feedback_form"
+  },
+  "place_data": {
+    "id": 8361,
+    "name": "KIA Bengaluru"
+  },
+  "tag_data": [],
+  "campaign": {
+    "id": 23258,
+    "name": "Customer Satisfaction Survey",
+    "custom_url": "https://www.example.com",
+    "content_type": 3,
+    "campaign_active": true,
+    "created": "2019-05-09T07:44:03.544150Z",
+    "updated": "2019-06-24T09:41:59.015809Z",
+    "organization": 1697,
+    "markdown_card": 13988,
+    "form": 7912,
+    "schedule": 4744
+  },
+  "fields_data": {},
+  "attributes": {
+    "color": "#000000",
+    "backgroundImage": "",
+    "margin": "",
+    "logoImage": ""
+  },
+  "url": "https://qr.tapnscan.me/sycwbi",
+  "name": "Dynamic QR code demo",
+  "state": "A",
+  "heartbeat": "2019-06-24T04:42:16.236105Z",
+  "created": "2019-05-09T07:44:03.517097Z",
+  "updated": "2019-06-24T09:41:59.045695Z",
+  "qr_type": 2,
+  "organization": 1697,
+  "place": 8361,
+  "tags": []
+}
+```
+
+Updates the specified qr code by setting the values of the parameters passed. Any parameters not provided will be left unchanged. However, the request should contain the required fields. Please refer to the QRCode object.
+
+### Create QR code
+
+curl -X POST \
+  https://beaconstac.mobstac.com/api/2.0/qrcodes/ \
+  -H 'Content-Type: application/json' \
+  -d '{
+	"attributes": {
+        "color": "#000000",
+        "margin": "",
+        "backgroundImage": "",
+        "logoImage": ""
+    },
+    "name": "test 3",
+    "qr_type": 2,
+    "organization": 1697,
+    "place": 8361
+}'
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "id": 224,
+  "meta": {
+    "notes": "",
+    "activationTimestamp": 1557387845,
+    "dynamic_sub_campaign": "feedback_form"
+  },
+  "place_data": {
+    "id": 8361,
+    "name": "KIA Bengaluru"
+  },
+  "tag_data": [],
+  "campaign": {
+    "id": 23258,
+    "name": "Customer Satisfaction Survey",
+    "custom_url": "https://www.example.com",
+    "content_type": 3,
+    "campaign_active": true,
+    "created": "2019-05-09T07:44:03.544150Z",
+    "updated": "2019-06-24T09:41:59.015809Z",
+    "organization": 1697,
+    "markdown_card": 13988,
+    "form": 7912,
+    "schedule": 4744
+  },
+  "fields_data": {},
+  "attributes": {
+    "color": "#000000",
+    "backgroundImage": "",
+    "margin": "",
+    "logoImage": ""
+  },
+  "url": "https://qr.tapnscan.me/sycwbi",
+  "name": "test 3",
+  "state": "A",
+  "heartbeat": "2019-06-24T04:42:16.236105Z",
+  "created": "2019-05-09T07:44:03.517097Z",
+  "updated": "2019-06-24T09:41:59.045695Z",
+  "qr_type": 2,
+  "organization": 1697,
+  "place": 8361,
+  "tags": []
+}
+```
+
+Creates a new qr code. However, the request should contain the required fields.
+
+### Download a QR code
+
+```shell
+curl "https://beaconstac.mobstac.com/api/2.0/qrcodes/{qrcode_id}/?size={size}&canvas_type={canvas_type}"
+  -H "Authorization: Token YOUR_TOKEN"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "urls": {
+    "svg": "https://beaconstac-content.s3.amazonaws.com/1697/qr-codes/224/svg/aHR0cHM6Ly9xci50YXBuc2Nhbi5tZS9zeWN3Ymk%3D-1024.svg"
+  }
+}
+```
+
+Download a QR code in a particular size and image format. Image types supported are PNG, JPEG, SVG and PDF. If no canvas type is sent in the parameters, the QRCode would be generated in all image types supported.
 
 ## Geofence
 
@@ -926,7 +1264,7 @@ Retrieves the details of an existing geofence. You need only supply the unique g
 curl "https://beaconstac.mobstac.com/api/2.0/geofences/{geofence_id}"
   -X PUT
   -H "Authorization: Token YOUR_TOKEN"
-  -d "{'id':geofence_id, 'campaign':{'id':10130}}"
+  -d "{'id':geofence_id, 'campaign':{'id':20144}}"
 ```
 
 > The above command returns JSON structured like this:
@@ -995,16 +1333,34 @@ Updates the specified geofence by setting the values of the parameters passed. A
 ### Create Geofence
 
 ```shell
-curl "https://beaconstac.mobstac.com/api/2.0/geofences/"
-  -X POST
-  -H "Authorization: Token YOUR_TOKEN"
-  -d "{'id':geofence_id, 'campaign':{'id':10130}}"
+curl -X POST \
+  https://beaconstac.mobstac.com/api/2.0/geofences/ \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "campaign": {
+        "id": 223,
+        "custom_url": "https://beaconstac.com",
+        "content_type": 2,
+        "campaign_active": true,
+        "organization": 1284,
+        "markdown_card": 434,
+        "form": 7099,
+        "schedule": null
+    },
+    "name": "Corner",
+    "place": 1929,
+    "latitude": 12.21343,
+    "longitude": 12.213132,
+    "radius": 100,
+    "organization": 1234
+}'
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
 {
+    "id": 4
     "campaign": {
         "id": 223,
         "custom_url": "https://beaconstac.com",
