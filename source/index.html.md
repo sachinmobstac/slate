@@ -237,8 +237,6 @@ Ordering fields:
 
 ### Retrieve a beacon
 
-`GET https://beaconstac.mobstac.com/api/2.0/beacons/{beacon_id}`
-
 ```shell
 curl "https://beaconstac.mobstac.com/api/2.0/beacons/{beacon_id}"
   -H "Authorization: Token YOUR_TOKEN"
@@ -349,8 +347,6 @@ curl "https://beaconstac.mobstac.com/api/2.0/beacons/{beacon_id}"
 Retrieves the details of an existing beacon. You need only supply the unique beacon identifier that was returned upon beacon listing
 
 ### Update Beacon
-
-`PUT https://beaconstac.mobstac.com/api/2.0/beacons/{beacon_id}`
 
 ```shell
 curl "https://beaconstac.mobstac.com/api/2.0/beacons/{beacon_id}"
@@ -589,8 +585,6 @@ Ordering fields:
 
 ### Retrieve a NFC tag
 
-`GET https://beaconstac.mobstac.com/api/2.0/nfctags/{nfctag_id}`
-
 ```shell
 curl "https://beaconstac.mobstac.com/api/2.0/nfctags/{nfctag_id}"
   -H "Authorization: Token YOUR_TOKEN"
@@ -640,15 +634,15 @@ curl "https://beaconstac.mobstac.com/api/2.0/nfctags/{nfctag_id}"
 
 Retrieves the details of an existing nfc tag. You need only supply the unique nfc tag identifier that was returned upon tags listing.
 
-### Update Beacon
+### Update NFC tag
 
-`PUT https://beaconstac.mobstac.com/api/2.0/beacons/{beacon_id}`
+`PUT https://beaconstac.mobstac.com/api/2.0/nfctags/{nfctag_id}`
 
 ```shell
-curl "https://beaconstac.mobstac.com/api/2.0/beacons/{beacon_id}"
+curl "https://beaconstac.mobstac.com/api/2.0/nfctags/{nfctag_id}"
   -X PUT
   -H "Authorization: Token YOUR_TOKEN"
-  -d "{'id':beacon_id, 'campaign':{'id':10130}}"
+  -d "{'id':nfctag_id, 'campaign':{'id':10130}}"
 ```
 
 > The above command returns JSON structured like this:
@@ -691,3 +685,5 @@ curl "https://beaconstac.mobstac.com/api/2.0/beacons/{beacon_id}"
   "tags": []
 }
 ```
+
+Updates the specified nfc tag by setting the values of the parameters passed. Any parameters not provided will be left unchanged. However, the request should contain the required fields. Please refer to the NFCTag object.
