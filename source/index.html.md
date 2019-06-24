@@ -1381,3 +1381,84 @@ curl -X POST \
 ```
 
 You can create the geofence by giving it a `name`, `latitude`, `longitude`, `radius` and a `campaign`.
+
+## Place
+
+Place objects allow you to view all places in your account and view beacons attached to them.
+
+### Get all places
+
+```shell
+curl "https://beaconstac.mobstac.com/api/2.0/places/"
+  -H "Authorization: Token YOUR_TOKEN"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "count": 2,
+  "next": null,
+  "previous": null,
+  "results": [
+    {
+      "id": 8361,
+      "beacons": [
+        {
+          "id": 8072,
+          "name": "0117C5978008",
+          "heartbeat": "2019-06-24T09:57:05.970926Z",
+          "state": "A"
+        }
+      ],
+      "beacon_count": 1,
+      "default_place": null,
+      "name": "KIA Bengaluru",
+      "latitude": 13.1986348,
+      "longitude": 77.7065928,
+      "place_id": "ChIJZWJEdf4crjsRjkEpoelwbCk",
+      "address": "Kempegowda International Airport Bengaluru,KIAL Rd, Devanahalli, Bengaluru, Karnataka 560300, India",
+      "business_icon_url": "https://d1bqobzsowu5wu.cloudfront.net/1697/e5356e8bde3c4afc92e48d64c898e721",
+      "business_cover_url": "https://d1bqobzsowu5wu.cloudfront.net/1697/9cffaa07236e4ccea144fd4ee0f17804",
+      "business_color": "145eb0",
+      "created": "2019-04-08T13:51:35.963177Z",
+      "updated": "2019-05-02T09:34:48.149451Z",
+      "organization": 1697
+    },
+    {
+      "id": 5511,
+      "beacons": [],
+      "beacon_count": 0,
+      "default_place": null,
+      "name": "Central Park",
+      "latitude": 40.7828647,
+      "longitude": -73.9653551,
+      "place_id": "ChIJ4zGFAZpYwokRGUGph3Mf37k",
+      "address": "Central Park,New York, NY, USA",
+      "business_icon_url": null,
+      "business_cover_url": null,
+      "business_color": null,
+      "created": "2018-06-05T07:22:49.722062Z",
+      "updated": "2018-06-05T07:22:49.722086Z",
+      "organization": 1697
+    }
+  ]
+}
+```
+
+Returns a list of your places.
+
+Filter arguments:
+
+1. `name`: `exact`, `icontains`
+
+Search Fields:
+
+1. `name`
+
+Ordering fields:
+
+1. `name`
+2. `created`
+3. `updated` - default
+4. `address`
