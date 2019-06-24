@@ -636,8 +636,6 @@ Retrieves the details of an existing nfc tag. You need only supply the unique nf
 
 ### Update NFC tag
 
-`PUT https://beaconstac.mobstac.com/api/2.0/nfctags/{nfctag_id}`
-
 ```shell
 curl "https://beaconstac.mobstac.com/api/2.0/nfctags/{nfctag_id}"
   -X PUT
@@ -687,3 +685,309 @@ curl "https://beaconstac.mobstac.com/api/2.0/nfctags/{nfctag_id}"
 ```
 
 Updates the specified nfc tag by setting the values of the parameters passed. Any parameters not provided will be left unchanged. However, the request should contain the required fields. Please refer to the NFCTag object.
+
+
+## Geofence
+
+Geofence objects allow you to perform actions on your geofences. You can retrieve individual geofences as well as a list of all your geofences or update a geofence
+
+### Get all geofences
+
+```shell
+curl "https://beaconstac.mobstac.com/api/2.0/geofences/"
+  -H "Authorization: Token YOUR_TOKEN"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "count": 2,
+  "next": null,
+  "previous": null,
+  "results": [
+    {
+      "id": 5,
+      "meta": {
+        "notes": ""
+      },
+      "place_data": {
+        "id": 1258,
+        "name": "Montreal, QC, Canada"
+      },
+      "tag_data": [],
+      "campaign": {
+        "id": 20144,
+        "name": "Looking for Shoes?",
+        "custom_url": "https://www.example.com",
+        "content_type": 2,
+        "campaign_active": true,
+        "created": "2019-06-09T06:03:10.894882",
+        "updated": "2019-06-13T07:06:23.806157",
+        "organization": 949,
+        "markdown_card": 135,
+        "form": 137,
+        "schedule": 4
+      },
+      "url": "https://q.geo.tapnscan.me/b6Pt2C",
+      "notifications": [
+        {
+          "id": 451,
+          "meta": {
+            "closeby": {},
+            "nearby": {}
+          },
+          "title": "Ola Prime welcomes you to Bengaluru 8",
+          "description": "Enjoy your favourite music on the way home",
+          "icon_url": "https://s3.amazonaws.com/beaconstac-content-qa/949/22a9aefb67034f1998551b97f34d6c4b",
+          "banner_type": 1,
+          "banner_image_url": null,
+          "app_intent": null,
+          "is_default": true,
+          "slug": "ola-prime-welcomes-you-to-bengaluru-8",
+          "created": "2019-06-12T11:03:10.908622Z",
+          "updated": "2019-06-13T07:06:23.801249Z",
+          "language_code": "en"
+        }
+      ],
+      "name": "Test",
+      "state": "A",
+      "heartbeat": "2019-06-18T06:57:38.752214Z",
+      "created": "2019-06-12T11:03:10.878086Z",
+      "updated": "2019-06-18T06:57:38.752444Z",
+      "latitude": "12.981900",
+      "longitude": "77.640500",
+      "radius": 1001,
+      "organization": 949,
+      "place": 1258,
+      "tags": []
+    },
+    {
+      "id": 7,
+      "meta": {
+        "notes": ""
+      },
+      "place_data": {
+        "id": 1504,
+        "name": "India"
+      },
+      "tag_data": [],
+      "campaign": {
+        "id": 20146,
+        "name": "Looking for Shoes?",
+        "custom_url": "https://www.example.com",
+        "content_type": 2,
+        "campaign_active": true,
+        "created": "2019-06-17T06:48:36.820377",
+        "updated": "2019-06-17T06:48:36.820395",
+        "organization": 949,
+        "markdown_card": 135,
+        "form": 1111,
+        "schedule": 28
+      },
+      "url": "https://q.geo.tapnscan.me/Cie705",
+      "notifications": [
+        {
+          "id": 453,
+          "meta": {
+            "closeby": {},
+            "nearby": {}
+          },
+          "title": "Decorate your foot!!!",
+          "description": "The best shoe you will ever find in this universe",
+          "icon_url": "https://s3.amazonaws.com/beaconstac-content-qa/949/d15803855cf14f468d52613666767a33",
+          "banner_type": 1,
+          "banner_image_url": null,
+          "app_intent": null,
+          "is_default": true,
+          "slug": "decorate-your-foot",
+          "created": "2019-06-17T06:48:36.836419Z",
+          "updated": "2019-06-17T06:48:36.836439Z",
+          "language_code": "en"
+        }
+      ],
+      "name": "My Loc",
+      "state": "A",
+      "heartbeat": "2019-06-18T06:57:38.750112Z",
+      "created": "2019-06-17T06:48:36.809354Z",
+      "updated": "2019-06-18T06:57:38.750294Z",
+      "latitude": "12.981900",
+      "longitude": "77.640500",
+      "radius": 500,
+      "organization": 949,
+      "place": 1504,
+      "tags": []
+    }
+  ]
+}
+```
+
+Filter arguments:
+
+1. `name`: `exact`, `icontains`
+2. `place__name`: `exact`, `icontains`
+3. `tags__name`: `exact`, `icontains`
+4. `url`: `exact`
+5. `campaign__content_type`: `exact` 
+6. `state`: `exact`
+
+Search Fields:
+
+1. `name`
+2. `place__name`
+3. `tags__name`
+4. `url`
+5. `campaign__content_type`
+
+Ordering fields:
+
+1. `name`
+2. `place__name`
+3. `created`
+4. `updated` - default
+5. `campaign__content_type`
+6. `state`
+
+Returns a list of your geofences. The geofences are returned sorted by updated, with the most recently updated geofence appearing first.
+
+### Retrieve a Geofence
+
+```shell
+curl "https://beaconstac.mobstac.com/api/2.0/geofences/{geofence_id}"
+  -H "Authorization: Token YOUR_TOKEN"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "id": 5,
+  "meta": {
+    "notes": ""
+  },
+  "place_data": {
+    "id": 1258,
+    "name": "Montreal, QC, Canada"
+  },
+  "tag_data": [],
+  "campaign": {
+    "id": 20144,
+    "name": "Looking for Shoes?",
+    "custom_url": "https://www.example.com",
+    "content_type": 2,
+    "campaign_active": true,
+    "created": "2019-06-09T06:03:10.894882",
+    "updated": "2019-06-13T07:06:23.806157",
+    "organization": 949,
+    "markdown_card": 135,
+    "form": 137,
+    "schedule": 4
+  },
+  "url": "https://q.geo.tapnscan.me/b6Pt2C",
+  "notifications": [
+    {
+      "id": 451,
+      "meta": {
+        "closeby": {},
+        "nearby": {}
+      },
+      "title": "Ola Prime welcomes you to Bengaluru 8",
+      "description": "Enjoy your favourite music on the way home",
+      "icon_url": "https://s3.amazonaws.com/beaconstac-content-qa/949/22a9aefb67034f1998551b97f34d6c4b",
+      "banner_type": 1,
+      "banner_image_url": null,
+      "app_intent": null,
+      "is_default": true,
+      "slug": "ola-prime-welcomes-you-to-bengaluru-8",
+      "created": "2019-06-12T11:03:10.908622Z",
+      "updated": "2019-06-13T07:06:23.801249Z",
+      "language_code": "en"
+    }
+  ],
+  "name": "Test",
+  "state": "A",
+  "heartbeat": "2019-06-18T06:57:38.752214Z",
+  "created": "2019-06-12T11:03:10.878086Z",
+  "updated": "2019-06-18T06:57:38.752444Z",
+  "latitude": "12.981900",
+  "longitude": "77.640500",
+  "radius": 1001,
+  "organization": 949,
+  "place": 1258,
+  "tags": []
+}
+```
+
+Retrieves the details of an existing geofence. You need only supply the unique geofence identifier that was returned upon geofence listing.
+
+### Update Geofence
+
+```shell
+curl "https://beaconstac.mobstac.com/api/2.0/geofences/{geofence_id}"
+  -X PUT
+  -H "Authorization: Token YOUR_TOKEN"
+  -d "{'id':geofence_id, 'campaign':{'id':10130}}"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "id": 5,
+  "meta": {
+    "notes": ""
+  },
+  "place_data": {
+    "id": 1258,
+    "name": "Montreal, QC, Canada"
+  },
+  "tag_data": [],
+  "campaign": {
+    "id": 20144,
+    "name": "Customer Satisfaction Survey",
+    "custom_url": "https://www.example.com",
+    "content_type": 3,
+    "campaign_active": true,
+    "created": "2019-06-09T06:03:10.894882",
+    "updated": "2019-06-24T09:28:08.905138Z",
+    "organization": 949,
+    "markdown_card": 135,
+    "form": 137,
+    "schedule": 4
+  },
+  "url": "https://q.geo.tapnscan.me/b6Pt2C",
+  "notifications": [
+    {
+      "id": 451,
+      "meta": {
+        "closeby": {},
+        "nearby": {}
+      },
+      "title": "Ola Prime welcomes you to Bengaluru 8",
+      "description": "Enjoy your favourite music on the way home",
+      "icon_url": "https://s3.amazonaws.com/beaconstac-content-qa/949/22a9aefb67034f1998551b97f34d6c4b",
+      "banner_type": 1,
+      "banner_image_url": null,
+      "app_intent": null,
+      "is_default": true,
+      "slug": "ola-prime-welcomes-you-to-bengaluru-8",
+      "created": "2019-06-12T11:03:10.908622Z",
+      "updated": "2019-06-24T09:28:08.901039Z",
+      "language_code": "en"
+    }
+  ],
+  "name": "Test",
+  "state": "A",
+  "heartbeat": "2019-06-18T06:57:38.752214Z",
+  "created": "2019-06-12T11:03:10.878086Z",
+  "updated": "2019-06-24T09:28:08.930559Z",
+  "latitude": "12.981900",
+  "longitude": "77.640500",
+  "radius": 1001,
+  "organization": 949,
+  "place": 1258,
+  "tags": []
+}
+```
+
+Updates the specified geofence by setting the values of the parameters passed. Any parameters not provided will be left unchanged. However, the request should contain the required fields. Please refer to the Geofence object.
