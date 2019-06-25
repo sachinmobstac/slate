@@ -3,13 +3,6 @@ title: API Reference
 
 language_tabs: # must be one of https://git.io/vQNgJ
   - shell
-  - ruby
-  - python
-  - javascript
-
-toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
-  - <a href='https://github.com/lord/slate'>Documentation Powered by Slate</a>
 
 includes:
   - errors
@@ -45,7 +38,7 @@ You can find your developer token by using the following steps.
 2. Go to your 'Account' section using the drop-down on the top-right.
 3. In the 'Account Details' section, copy the 'Developer Token' value.
 
-![Account Page](https://github.com/Beaconstac/api/blob/master/images/account_page.png)
+![Account Page](account_page.png)
 
 Beaconstac expects for the API key to be included in all API requests to the server in a header that looks like the following:
 
@@ -211,7 +204,7 @@ Filter arguments:
 4. `tags__name`: `exact`, `icontains`
 5. `url`: `exact`
 6. `heartbeat`: `lt`, `lte`, `gt`, `gte`
-7. `campaign__content_type`: `exact` 
+7. `campaign__content_type`: `exact`
 8. `state`: `exact`
 
 Search Fields:
@@ -562,7 +555,7 @@ Filter arguments:
 2. `place__name`: `exact`, `icontains`
 3. `tags__name`: `exact`, `icontains`
 4. `url`: `exact`
-5. `campaign__content_type`: `exact` 
+5. `campaign__content_type`: `exact`
 6. `state`: `exact`
 
 Search Fields:
@@ -686,7 +679,7 @@ curl "https://beaconstac.mobstac.com/api/2.0/nfctags/{nfctag_id}"
 
 Updates the specified nfc tag by setting the values of the parameters passed. Any parameters not provided will be left unchanged. However, the request should contain the required fields. Please refer to the NFCTag object.
 
-## QR Code 
+## QR Code
 
 QRCode objects allow you to perform actions on your qr codes. You can retrieve individual qr codes as well as a list of all your qr codes or update a qr code.
 
@@ -803,7 +796,7 @@ Filter arguments:
 2. `place__name`: `exact`, `icontains`
 3. `tags__name`: `exact`, `icontains`
 4. `url`: `exact`
-5. `campaign__content_type`: `exact` 
+5. `campaign__content_type`: `exact`
 6. `state`: `exact`
 
 Search Fields:
@@ -1166,7 +1159,7 @@ Filter arguments:
 2. `place__name`: `exact`, `icontains`
 3. `tags__name`: `exact`, `icontains`
 4. `url`: `exact`
-5. `campaign__content_type`: `exact` 
+5. `campaign__content_type`: `exact`
 6. `state`: `exact`
 
 Search Fields:
@@ -1462,3 +1455,278 @@ Ordering fields:
 2. `created`
 3. `updated` - default
 4. `address`
+
+# Analytics
+
+## Product
+Product types:
+
+1. beacon
+2. nfc
+3. qr
+4. geofence
+
+from, to parameters should be in EPOCH milliseconds.
+
+## Product overview
+
+```shell
+curl "https://beaconstac.mobstac.com/reporting/2.0/?organization={organization_id}&method=Products.getOverview"
+  -H "Authorization: Token YOUR_TOKEN"
+  -d '{
+          "product_type": {type},
+          "from": 1560796200000,
+          "to": 1561401000000
+      }'
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "points": [
+    [
+      20017,
+      "AC233F25A31B(Times Square)",
+      152,
+      2
+    ],
+    [
+      8072,
+      "0117C5978008(KIA Bengaluru)",
+      231,
+      0
+    ]
+  ],
+  "columns": [
+    [
+      "product_id",
+      "product_name",
+      "notification_count",
+      "impression_count"
+    ]
+  ]
+}
+```
+
+Get analytics overview for the product type over the time interval.
+
+## Product performance
+
+```shell
+curl "https://beaconstac.mobstac.com/reporting/2.0/?organization={organization_id}&method=Products.getPerformance"
+  -H "Authorization: Token YOUR_TOKEN"
+  -d '{
+          "product_type": {type},
+          "product_id": {id},
+          "from": 1560796200000,
+          "to": 1561401000000,
+          "interval": "1d",
+          "timezone": "UTC"
+      }'
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "points": [
+        8072,
+        "0117C5978008",
+        "0117C5978008",
+        231,
+        0,
+        0,
+        8361,
+        "KIA Bengaluru",
+        [
+            [
+                1560816000000,
+                73,
+                0,
+                0
+            ],
+            [
+                1560902400000,
+                58,
+                0,
+                0
+            ],
+            [
+                1560988800000,
+                35,
+                0,
+                0
+            ],
+            [
+                1561075200000,
+                33,
+                0,
+                0
+            ],
+            [
+                1561161600000,
+                0,
+                0,
+                0
+            ],
+            [
+                1561248000000,
+                0,
+                0,
+                0
+            ],
+            [
+                1561334400000,
+                32,
+                0,
+                0
+            ]
+        ]
+    ],
+    "columns": [
+        "product_id",
+        "product_name",
+        "product_identifier",
+        "total_notification_count",
+        "total_impression_count",
+        "total_ctr",
+        "place_id",
+        "place_name",
+        [
+            [
+                "epoch_date",
+                "notification_count",
+                "impression_count",
+                "ctr"
+            ]
+        ]
+    ]
+}
+```
+
+Get analytics performace for the product.
+
+## Product impression detail
+
+```shell
+curl "https://beaconstac.mobstac.com/reporting/2.0/?organization={organization_id}&method=Products.getImpressionDetail"
+  -H "Authorization: Token YOUR_TOKEN"
+  -d '{
+          "product_type": {type},
+          "place": {place_id},
+          "from": 1560796200000,
+          "to": 1561401000000
+      }'
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "points": [
+        [
+            "15611148064w64ye",
+            2888,
+            "Times Square",
+            20017,
+            "AC233F25A31B",
+            "AC233F25A31B",
+            "2019-06-21T11:11:41.523Z",
+            "49.207.48.13",
+            "Mozilla/5.0 (iPhone; CPU iPhone OS 12_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1.1 Mobile/15E148 Safari/604.1"
+        ],
+        [
+            "15611148064w64ye",
+            2888,
+            "Times Square",
+            20017,
+            "AC233F25A31B",
+            "AC233F25A31B",
+            "2019-06-21T11:00:06.757Z",
+            "49.207.48.13",
+            "Mozilla/5.0 (iPhone; CPU iPhone OS 12_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1.1 Mobile/15E148 Safari/604.1"
+        ]
+    ],
+    "columns": [
+        "cookie_id",
+        "place_id",
+        "place_name",
+        "product_id",
+        "product_name",
+        "product_identifier",
+        "iso_date",
+        "ip_address",
+        "user_agent"
+    ]
+}
+```
+
+Get impressions details generated by the product. If no `place` is provided data will be returned for all products of the product type specified in the organization.
+
+## Product impression distribution
+
+```shell
+curl "https://beaconstac.mobstac.com/reporting/2.0/?organization={organization_id}&method=Products.getImpressionDistribution"
+  -H "Authorization: Token YOUR_TOKEN"
+  -d '{
+          "product_type": {type},
+          "place": {place_id},
+          "from": 1560796200000,
+          "to": 1561401000000
+      }'
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "points": [
+        [
+            2888,
+            "Times Square",
+            [
+                20017,
+                "AC233F25A31B",
+                "AC233F25A31B",
+                2,
+                0,
+                2,
+                0
+            ]
+        ]
+    ],
+    "columns": [
+        "place_id",
+        "place_name",
+        [
+            "product_id",
+            "product_name",
+            "product_identifier",
+            "impression_count",
+            "custom_impression",
+            "card_impression",
+            "form_impression"
+        ]
+    ]
+}
+```
+
+Get impression distribution generated by the product. If no `place` is provided data will be returned for all products of the product type specified in the organization.
+
+## Generate product CSV data
+
+```shell
+curl "https://beaconstac.mobstac.com/reporting/2.0/?organization={organization_id}&method=Csv.getProductData"
+  -H "Authorization: Token YOUR_TOKEN"
+  -d '{
+          "product_type": {type},
+          "organization_ids": [organization_id_1, organization_id_2],
+          "product_ids": [product_id_1, prodcut_id_2],
+          "from": 1559273172,
+          "to": 1559283172,
+          "timezone": "UTC"
+      }'
+```
+
+Generate a detailed CSV report for products in the specified organizations. The report will be emailed to the user email mentioned in the POST body. If not email is specified it would be emailed to the user making the request.
